@@ -8,7 +8,7 @@ startup: postworld
 commands:
    MnBasics:
       description: Show a list of all commands
-      usage: /<command> [reload|help] [page]
+      usage: /<command> [reload|info]
       aliases:
         - "Mnbasic"
         - "Mnb"

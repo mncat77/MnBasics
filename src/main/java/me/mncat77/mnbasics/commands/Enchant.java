@@ -28,31 +28,44 @@ public class Enchant implements CommandExecutor{
                 }
                 ItemStack item = player.getInventory().getItemInHand();
                 if(item.getType() == Material.AIR){
-                    sender.sendMessage(ChatColor.RED + "Not an item.");
+                    player.sendMessage(ChatColor.RED + "Not an item.");
                     return true;
                 }
+                
+                if(args.length == 0){return false;}
+                
                 if(args[0].equalsIgnoreCase("clear")){
-                    for(int i=0;i<Enchantment.values().length;i++){
-                        item.removeEnchantment(Enchantment.values()[i]);
-                        player.sendMessage(ChatColor.YELLOW + "Cleared Enchantments.");
-                        return true;
+                    int j=0;
+                    for(int i=0;i < Enchantment.values().length;i++){
+                        if(item.containsEnchantment(Enchantment.values()[i])) {
+                            item.removeEnchantment(Enchantment.values()[i]);
+                            j++;
+                        }
+                        
                     }
+                    
+                    if(j!=1){player.sendMessage(ChatColor.YELLOW + "Removed " + j + " enchantments.");}
+                    else{player.sendMessage(ChatColor.YELLOW + "Removed 1 enchantment.");}
+                    return true;
+                    
                 }
+                
+                if(args.length != 2){return false;}
                 
                 Enchantment enchantment = getEnchantment(args[0]);
                 if(enchantment == null){
-                    sender.sendMessage(ChatColor.RED + "Invalid enchantment.");
+                    player.sendMessage(ChatColor.RED + "Invalid enchantment.");
                     return true;
                 }
                 
                 int level;
                 try{level = Integer.parseInt(args[1]);}
                 catch(NumberFormatException e){
-                    sender.sendMessage(ChatColor.RED + "Invalid level.");
+                    player.sendMessage(ChatColor.RED + "Invalid level.");
                     return true;
                 }
                 catch(ArrayIndexOutOfBoundsException e){
-                    sender.sendMessage(ChatColor.RED + "Invalid level.");
+                    player.sendMessage(ChatColor.RED + "Invalid level.");
                     return true;
                 }
                 
@@ -66,8 +79,17 @@ public class Enchant implements CommandExecutor{
                     if(level > enchantment.getMaxLevel()){level = enchantment.getMaxLevel();}
                 }
                 
+                boolean isEnchanted = false;
+                for(int i=0;i < Enchantment.values().length;i++){
+                    if(item.containsEnchantment(Enchantment.values()[i])) {
+                        isEnchanted = true;
+                        break;
+                    }
+                }
+                
                 item.addUnsafeEnchantment(enchantment, level);
-                player.sendMessage(ChatColor.YELLOW + "Item enchanted.");
+                if(isEnchanted){player.sendMessage(ChatColor.YELLOW + "Enchantment added.");}
+                else{player.sendMessage(ChatColor.YELLOW + "Item enchanted.");}
                 return true;
                 
             }
@@ -94,7 +116,7 @@ public class Enchant implements CommandExecutor{
             else{
                 try{
                     Enchantment enchantment = Enchantment.getByName(enchStr.toUpperCase());
-                    return enchantment;
+                    if(enchantment != null){return enchantment;}
                 }
                 catch(NullPointerException e){
                 }
