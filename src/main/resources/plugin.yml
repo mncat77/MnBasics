@@ -1,0 +1,17 @@
+name: MnBasics
+version: '0.0'
+author: mncat77
+description: Plugin for basic commands...
+main: me.mncat77.mnbasics.MnBasics
+database: false
+startup: postworld
+commands:
+   MnBasics:
+      description: Show a list of all commands
+      usage: /<command> [reload|help] [page]
+      aliases:
+        - "Mnbasic"
+        - "Mnb"
+   enchant:
+      description: Enchant an item
+      usage: /<command> <enchantment>|clear|list|help [<level>]

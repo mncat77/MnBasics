@@ -1,0 +1,14 @@
+# MnBasics Configuration File
+
+
+
+
+
+
+
+# Prefix displayed in front of the broadcast-message. Use &0-9,&a-f and &l,m,n,o,r to format your text.
+broadcast-format: ChatColor.RED + "[Broadcast] " + args[0]
+
+
+
+
