@@ -125,9 +125,36 @@ public class Enchant implements CommandExecutor{
                 else if(enchStr.equalsIgnoreCase("Fireaspect") || enchStr.equalsIgnoreCase("Fire")){
                     return Enchantment.FIRE_ASPECT;
                 }
-                
-                return Enchantment.ARROW_DAMAGE;
+                else if(enchStr.equalsIgnoreCase("Looting") || enchStr.equalsIgnoreCase("Loot")){
+                    return Enchantment.LOOT_BONUS_MOBS;
+                }
+                else if(enchStr.equalsIgnoreCase("Efficiency") || enchStr.equalsIgnoreCase("DigSpeed")){
+                    return Enchantment.DIG_SPEED;
+                }
+                else if(enchStr.equalsIgnoreCase("Silktouch") || enchStr.equalsIgnoreCase("Silk")){
+                    return Enchantment.SILK_TOUCH;
+                }
+                else if(enchStr.equalsIgnoreCase("Unbreaking")){
+                    return Enchantment.DURABILITY;
+                }
+                else if(enchStr.equalsIgnoreCase("Fortune")){
+                    return Enchantment.LOOT_BONUS_BLOCKS;
+                }
+                else if(enchStr.equalsIgnoreCase("Power")){
+                    return Enchantment.ARROW_DAMAGE;
+                }
+                else if(enchStr.equalsIgnoreCase("Punch")){
+                    return Enchantment.ARROW_KNOCKBACK;
+                }
+                else if(enchStr.equalsIgnoreCase("Flame")){
+                    return Enchantment.ARROW_FIRE;
+                }
+                else if(enchStr.equalsIgnoreCase("Infinity")){
+                    return Enchantment.ARROW_INFINITE;
+                }
             }
+            
+        return null;
             
         }
 }
