@@ -2,6 +2,7 @@ package me.mncat77.mnbasics.commands;
 
 import me.mncat77.mnbasics.MnBasics;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,45 +23,56 @@ public class Enchant implements CommandExecutor{
             
             if(sender instanceof Player){
                 Player player = (Player)sender;
+                if(!(player.hasPermission("MnBasics.Enchant") || player.hasPermission("MnBasics.EnchantAll"))){
+                    player.sendMessage(ChatColor.RED + "You don't have permission to enchant items.");
+                }
                 ItemStack item = player.getInventory().getItemInHand();
-                if(item == null){
-                    sender.sendMessage(ChatColor.RED + "Not an enchantable item.");
+                if(item.getType() == Material.AIR){
+                    sender.sendMessage(ChatColor.RED + "Not an item.");
                     return true;
                 }
-                //Enchantment enchantment = args[0];
+                if(args[0].equalsIgnoreCase("clear")){
+                    for(int i=0;i<Enchantment.values().length;i++){
+                        item.removeEnchantment(Enchantment.values()[i]);
+                        player.sendMessage(ChatColor.YELLOW + "Cleared Enchantments.");
+                        return true;
+                    }
+                }
+                
+                Enchantment enchantment = getEnchantment(args[0]);
+                if(enchantment == null){
+                    sender.sendMessage(ChatColor.RED + "Invalid enchantment.");
+                    return true;
+                }
+                
                 int level;
                 try{level = Integer.parseInt(args[1]);}
                 catch(NumberFormatException e){
-                    boolean levelValid = false;
                     sender.sendMessage(ChatColor.RED + "Invalid level.");
                     return true;
                 }
                 catch(ArrayIndexOutOfBoundsException e){
-                    boolean levelValid = false;
                     sender.sendMessage(ChatColor.RED + "Invalid level.");
                     return true;
                 }
-               
+                
                 if(level > 32767){
                     level = 32767;
                 }
                 else if(level < 1){
                     level = 1;
                 }
-
-                Enchantment enchantment = getEnchantment(args[0]);
-                if(enchantment == null){
-                    sender.sendMessage(ChatColor.RED + "Invalid enchantment.");
-                    return true;
+                if(!player.hasPermission("MnBasics.EnchantAll")){
+                    if(level > enchantment.getMaxLevel()){level = enchantment.getMaxLevel();}
                 }
-                else{
-                    item.addUnsafeEnchantment(enchantment, level);
-                    return true;
-                }
+                
+                item.addUnsafeEnchantment(enchantment, level);
+                player.sendMessage(ChatColor.YELLOW + "Item enchanted.");
+                return true;
                 
             }
             else{
-                sender.sendMessage("You have to be a player 'n stuff");
+                sender.sendMessage(ChatColor.RED + "This Command can not be executed from the Console");
                 return true;
             }
             

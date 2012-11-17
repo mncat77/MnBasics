@@ -1,6 +1,5 @@
 package me.mncat77.mnbasics;
 
-import me.mncat77.mnbasics.commands.Broadcast;
 import me.mncat77.mnbasics.commands.Enchant;
 import me.mncat77.mnbasics.commands.Root;
 import org.bukkit.command.Command;
