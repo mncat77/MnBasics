@@ -1,6 +1,6 @@
 package me.mncat77.mnbasics.commands;
 
-import java.util.Map;
+import java.util.ArrayList;
 import me.mncat77.mnbasics.MnBasics;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class Gear implements CommandExecutor, Listener{
     
-    public Map<Player, Boolean> GearModeEnabled;
+    private ArrayList<String> GearModeEnabled = new ArrayList<String>();
     private MnBasics plugin;
     
     	public Gear(MnBasics plugin) {
@@ -31,12 +31,13 @@ public class Gear implements CommandExecutor, Listener{
             if(args.length != 0){return false;}
             Player player = (Player)sender;
             if(player.hasPermission("MnBasics.Gear")){
-                GearModeEnabled.put(player, !GearModeEnabled.get(player));
-                if(GearModeEnabled.get(player)) {
-                    player.sendMessage(ChatColor.YELLOW + "Gear Mode is now on");
+                if(!GearModeEnabled.contains(player.getName())) {
+                    GearModeEnabled.add(player.getName());
+                    player.sendMessage(ChatColor.YELLOW + "Gear Mode is now activated");
                 }
                 else{
-                    player.sendMessage(ChatColor.YELLOW + "Gear Mode is now off");
+                    GearModeEnabled.remove(player.getName());
+                    player.sendMessage(ChatColor.YELLOW + "Gear Mode is now deactivated");
                 }
             }
             else{
@@ -50,7 +51,8 @@ public class Gear implements CommandExecutor, Listener{
     @EventHandler
     public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event){
         Player player = event.getPlayer();
-        if(GearModeEnabled.get(player)){
+        if(!GearModeEnabled.contains(player.getName())){}
+        else{
             Entity entity = event.getRightClicked();
             if(entity instanceof CraftLivingEntity){
                 CraftLivingEntity lEntity = (CraftLivingEntity)entity;
@@ -104,7 +106,7 @@ public class Gear implements CommandExecutor, Listener{
             }
             
         }
-    }
         
+    }   
         
 }

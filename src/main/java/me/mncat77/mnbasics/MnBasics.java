@@ -17,11 +17,12 @@ public class MnBasics extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        Gear gear = new Gear(this);
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(new Gear(this), this);
+        getServer().getPluginManager().registerEvents(gear, this);
         getCommand("MnBasics").setExecutor(new Root(this));
         getCommand("enchant").setExecutor(new Enchant(this));
-        getCommand("gear").setExecutor(new Gear(this));
+        getCommand("gear").setExecutor(gear);
     }
     
     @EventHandler
