@@ -17,3 +17,6 @@ commands:
       usage: /<command> <enchantment>|clear [<level>]
       aliases:
         - "ench"
+   gear:
+      description: Toggle your Gear Mode
+      usage: /<command>
